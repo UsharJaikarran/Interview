@@ -1,45 +1,51 @@
-# Sentari Interview Template
+# 📦 Sentari Kit
 
-Welcome candidate! This repository is a **self-contained sandbox**. It does _not_ connect to any Supabase instance or external API; everything you need is already here.
+This folder contains **everything** a candidate needs to complete an interview task.
 
----
+Tech stack:
+Next.js 15 (App Router, React Server Components)
+React 19
+TypeScript
+Tailwind CSS 3 
+Supabase
 
-## 1 Project Setup
-```bash
-pnpm install     # install locked dev-dependencies
-pnpm lint        # ESLint + Prettier (zero warnings allowed)
-pnpm test        # Vitest unit tests – must be green
-cp env.example .env  # (optional) add your OpenAI key to run live calls
+Structure:
+```
+contrib/
+ ├─ README.md                # you are here
+ ├─ template/                # minimal repo candidates will fork
+ └─ scripts/
+     └─ verify-contrib.sh    # maintainer helper to check a submission
 ```
 
-## 2 Domain Types & Mock Data
-* `src/lib/types.ts` – exact TypeScript interfaces used in production.
-* `Expanded_Diary_Entries.csv` – 200-row fixture at repo root (all DB columns).
-* `src/lib/mockData.ts` – loads the CSV at runtime and exports it as `mockVoiceEntries`.
-* `src/lib/openai.ts` – optional helper: if `OPENAI_API_KEY` is present it calls the real API, otherwise returns deterministic stubs so tests still pass offline.
+Read `template/README.md` for the instructions you will send to candidates.
 
-> **Note:** the CSV mirrors our current production schema, but you're welcome to add extra columns in your local copy if your solution needs them (e.g. a temporary `score` field). Keep the original columns untouched so our automated checker can still parse the file.
+## Folder structure
 
-## 3 Your Only Job
-Open `src/lib/sampleFunction.ts` and complete the body of `processEntries()`.  
-Requirements:
-1. Pure & synchronous (no network or file-system side-effects unless you use the provided OpenAI helper).  
-2. Must return a `ProcessedResult` object (defined in `types.ts`).  
-3. Update / add tests in `tests/sampleFunction.test.ts` so coverage is > 90 %.  
+```
+contrib/
+ ├─ README.md                # this guide
+ ├─ template/                # minimal project template for contributors
+ │   ├─ src/
+ │   │   ├─ lib/
+ │   │   │   └─ sampleService.ts
+ │   │   └─ app/api/sample/route.ts
+ │   ├─ tests/
+ │   │   └─ sample.test.ts
+ │   ├─ package.json         # locked dependency versions
+ │   ├─ tsconfig.json
+ │   └─ .eslintrc.json
+ └─ scripts/
+     └─ verify-contrib.sh    # one-liner acceptance script for maintainers
+```
 
-## 4 Rules
-✅ Do
-* Keep TypeScript `strict` errors at **0**.
-* Run `pnpm lint --fix` before commit.
-* Document non-trivial logic with JSDoc.
+## Quick workflow overview
 
-🚫 Don't
-* Touch files outside `src/` or modify config files.
-* Add runtime dependencies (dev-deps are allowed if justified).
-* Commit any secrets – keep your `.env` file local.
+1. A contributor **forks** the `template/` repo (or clicks *Use this template* on GitHub).  
+2. They implement their feature following `template/README.md` and make sure `pnpm lint && pnpm test` are both green.  
+3. They generate a `patch.diff` or simply share the repository URL in the designated Issue.  
+4. You run `scripts/verify-contrib.sh <repo-url>` to clone the repo and execute the automated checks offline.  
+5. If it passes and looks valuable, you manually cherry-pick / copy the code into the main code-base.
 
-## 5 Submit
-1. Push your fork / repo to GitHub (public or private link).  
-2. Share the repo URL or a `patch.diff` file per the job portal instructions.
+> Important: everything lives under the `contrib/` sub-directory 
 
-That's it — good luck and happy coding!
